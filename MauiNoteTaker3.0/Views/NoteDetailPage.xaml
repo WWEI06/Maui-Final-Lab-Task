@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="MauiNoteTaker3._0.Views.NoteDetailPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Edit Note">
+
+    <Grid RowDefinitions="Auto, *, Auto, Auto">
+
+        <!-- Toolbar -->
+        <Grid Grid.Row="0" 
+              ColumnDefinitions="*, Auto, Auto"
+              Padding="10"
+              BackgroundColor="{StaticResource Primary}">
+
+            <Button Grid.Column="0"
+                    Text="← Back"
+                    Clicked="OnBackClicked"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    HorizontalOptions="Start"/>
+
+            <Button Grid.Column="1"
+                    Text="💾"
+                    Command="{Binding SaveCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    FontSize="16"/>
+
+            <Button Grid.Column="2"
+                    Text="🗑️"
+                    Command="{Binding DeleteCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    FontSize="16"/>
+        </Grid>
+
+        <!-- Color Picker -->
+        <ScrollView Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalScrollBarVisibility="Never">
+
+            <StackLayout Orientation="Horizontal" 
+                         Spacing="10"
+                         Padding="10">
+
+                <Button Text="🔴" 
+                        Command="{Binding ChangeColorCommand}"
+                        CommandParameter="#FFEBEE"
+                        BackgroundColor="#FFEBEE"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="20"/>
+
+                <Button Text="🟢" 
+                        Command="{Binding ChangeColorCommand}"
+                        CommandParameter="#E8F5E8"
+                        BackgroundColor="#E8F5E8"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="20"/>
+
+                <Button Text="🔵" 
+                        Command="{Binding ChangeColorCommand}"
+                        CommandParameter="#E3F2FD"
+                        BackgroundColor="#E3F2FD"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="20"/>
+
+                <Button Text="🟡" 
+                        Command="{Binding ChangeColorCommand}"
+                        CommandParameter="#FFFDE7"
+                        BackgroundColor="#FFFDE7"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="20"/>
+
+                <Button Text="⚪" 
+                        Command="{Binding ChangeColorCommand}"
+                        CommandParameter="#FFFFFF"
+                        BackgroundColor="#FFFFFF"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="20"/>
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Note Editor -->
+        <ScrollView Grid.Row="2">
+            <StackLayout Padding="20" Spacing="15">
+
+                <!-- Title Editor -->
+                <Entry Text="{Binding Note.Title}"
+                       Placeholder="Note Title"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       BackgroundColor="Transparent"
+                       TextColor="{StaticResource Primary}"/>
+
+                <!-- Content Editor -->
+                <Editor Text="{Binding Note.Content}"
+                        Placeholder="Start writing your note..."
+                        AutoSize="TextChanges"
+                        FontSize="16"
+                        BackgroundColor="Transparent"
+                        TextColor="{StaticResource Secondary}"
+                        HeightRequest="300"/>
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Current Color Indicator -->
+        <BoxView Grid.Row="3"
+                 HeightRequest="5"
+                 BackgroundColor="{Binding Note.Color}"/>
+    </Grid>
+</ContentPage>

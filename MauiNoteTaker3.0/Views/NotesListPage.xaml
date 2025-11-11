@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="MauiNoteTaker3._0.Views.NotesListPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Dicky's Notes"
+             x:Name="Page">
+
+    <Grid RowDefinitions="Auto, *">
+
+        <!-- Search Bar -->
+        <SearchBar Grid.Row="0"
+                   Placeholder="Search notes..."
+                   Text="{Binding SearchText}"
+                   Margin="10"
+                   BackgroundColor="{StaticResource Primary}"
+                   TextColor="White"
+                   PlaceholderColor="LightGray" />
+
+        <!-- Notes Collection -->
+        <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding LoadNotesCommand}">
+
+            <CollectionView ItemsSource="{Binding Notes}"
+                            SelectionMode="None">
+
+                <CollectionView.Header>
+                    <StackLayout Padding="10">
+                        <Button Text="Create New Note"
+                                Command="{Binding AddNoteCommand}"
+                                BackgroundColor="{StaticResource Secondary}"
+                                TextColor="White"
+                                FontSize="16"
+                                HeightRequest="50"
+                                CornerRadius="25"/>
+                    </StackLayout>
+                </CollectionView.Header>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="10,5"
+                              ColumnDefinitions="Auto, *, Auto">
+
+                            <!-- Pin Indicator -->
+                            <Label Grid.Column="0"
+                                   Text="{Binding IsPinned, Converter={StaticResource PinConverter}}"
+                                   FontFamily="MaterialIcons"
+                                   FontSize="16"
+                                   TextColor="{StaticResource Tertiary}"
+                                   VerticalOptions="Center"
+                                   Margin="0,0,10,0"
+                                   IsVisible="{Binding IsPinned}"/>
+
+                            <!-- Note Card - Using Border instead of Frame -->
+                            <Border Grid.Column="1"
+                                   BackgroundColor="{Binding Color}"
+                                   Padding="15"
+                                   Stroke="Transparent"
+                                   StrokeShape="RoundRectangle 15"
+                                   Shadow="{x:Null}">
+
+                                <Grid RowDefinitions="Auto, *, Auto"
+                                      ColumnDefinitions="*, Auto">
+
+                                    <!-- Title -->
+                                    <Label Grid.Row="0" Grid.Column="0"
+                                           Text="{Binding Title}"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource Primary}"
+                                           LineBreakMode="TailTruncation"/>
+
+                                    <!-- Content Preview -->
+                                    <Label Grid.Row="1" Grid.Column="0"
+                                           Text="{Binding Content}"
+                                           FontSize="14"
+                                           TextColor="{StaticResource Secondary}"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="2"
+                                           Margin="0,5,0,0"/>
+
+                                    <!-- Date -->
+                                    <Label Grid.Row="2" Grid.Column="0"
+                                           Text="{Binding UpdatedDate, StringFormat='{0:MMM dd, yyyy}'}"
+                                           FontSize="12"
+                                           TextColor="{StaticResource Tertiary}"
+                                           Margin="0,5,0,0"/>
+
+                                    <!-- Action Buttons -->
+                                    <StackLayout Grid.Row="0" Grid.RowSpan="3" Grid.Column="1"
+                                                 Orientation="Horizontal"
+                                                 Spacing="5"
+                                                 VerticalOptions="Start">
+
+                                        <Button Text="📌"
+                                                Command="{Binding BindingContext.TogglePinCommand, Source={x:Reference Page}}"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="Transparent"
+                                                TextColor="{StaticResource Tertiary}"
+                                                FontSize="12"
+                                                HeightRequest="30"
+                                                WidthRequest="30"
+                                                CornerRadius="15"/>
+
+                                        <Button Text="✏️"
+                                                Command="{Binding BindingContext.EditNoteCommand, Source={x:Reference Page}}"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="Transparent"
+                                                TextColor="{StaticResource Tertiary}"
+                                                FontSize="12"
+                                                HeightRequest="30"
+                                                WidthRequest="30"
+                                                CornerRadius="15"/>
+
+                                        <Button Text="🗑️"
+                                                Command="{Binding BindingContext.DeleteNoteCommand, Source={x:Reference Page}}"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="Transparent"
+                                                TextColor="{StaticResource Tertiary}"
+                                                FontSize="12"
+                                                HeightRequest="30"
+                                                WidthRequest="30"
+                                                CornerRadius="15"/>
+                                    </StackLayout>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>
